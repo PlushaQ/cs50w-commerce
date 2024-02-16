@@ -1,0 +1,34 @@
+{% extends "auctions/layout.html" %}
+{% load custom_filters %}
+
+{% block body %}
+    <h2>Active Listings</h2>
+    
+    {% for auction in auctions %}
+    <hr>
+    <div class="listing-short">
+        <h3 style="margin-right: 20px;">{{ auction.title }}</h3>
+        <div class="content">
+            <div class="auction-image">
+                <img src="{{ auction.image }}" alt="{{ auction.title }} image" width="200px" style="margin-right: 20px;">
+            </div>  
+            <div class="description">
+                <p>{{ auction.short_description }}</p>
+            <div class="content-footer">
+                <p class="price"> <strong>Price: </strong> $ {{ auction|get_biggest_bid }}</p> 
+                <div class="auction-button">
+                    <a href="{% url 'auction' auction.slug %}">
+                        <button>Go to auction</button>
+                    </a>
+                </div>
+                <br>
+                <p class="creation-date">Created {{ auction.pretty_release_date }} by {{ auction.user }}</p>
+            </div>
+            </div>
+            
+        </div>
+    </div>
+    
+    {% endfor %}
+    <hr>
+{% endblock %}

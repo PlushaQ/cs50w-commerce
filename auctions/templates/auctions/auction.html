@@ -1,0 +1,80 @@
+{% extends "auctions/layout.html" %}
+{% load custom_filters %}
+
+{% block body %}
+<h1> {{ auction.title }}</h1>
+
+<div class="auction-content">
+    {% if user.is_authenticated %}
+        {% if watchlist.exists %}
+            <form action="{% url 'watchlist_remove' watchlist.0.id %}" method="post" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger btn-sm">Remove from Watchlist</button>
+            </form>
+        {% else %}  
+            <form action="{% url 'watchlist_add' auction.id %}" method="post" style="display: inline; align-items: right;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-success btn-sm">Watchlist</button>
+            </form>
+        {% endif %}
+
+        {% if auction.user == user and auction.active %}
+                <form action="{% url 'close_auction' auction.id %}" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger btn-sm">Close auction</button>
+                </form> 
+            {% endif %}
+    {% endif %}
+    <hr>
+    <div class="listing-long"> 
+        <div class="auction-image">
+            <img src="{{ auction.image }}" alt="{{auction.title}} image" width="400px" style="margin-right: 20px;">
+        </div>  
+        <div class="description">
+            <p> {{ auction.description }}</p>
+        </div>
+    </div>
+    <hr>
+    {% if auction.active %}
+    <div class="bids-container">
+        <h3> ${{ auction|get_biggest_bid }}</h3>
+        <p>Current bids: {{ auction|get_number_of_bids }}</p>
+    </div>
+    
+    <div class="bid-form">
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                {{ form.value.label_tag }}
+                {{ form.value }}
+            </div>
+            <button type="submit" class="btn btn-primary">Place bid</button>
+        </form>
+        <br>
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <div class="winner"> 
+        {% if auction.winner == user %}
+            <h3>You win this auction!</h3>
+        {% elif auction.user == user %}
+            <h3> User {{ user.username }} won this auction with  ${{ auction|get_biggest_bid }} bid.</h3>
+        {% else %}
+            <h3> Sold for ${{ auction|get_biggest_bid }}</h3>
+        {% endif %}
+    </div>
+    {% endif %}
+    <hr>
+
+        <h3> Additional info:</h3>
+        <ul>
+            <li> Category: {{ auction.category }}</li>
+            <li> Listed by: {{ auction.user }} </li>
+            <li> Realese date: {{auction.pretty_release_date }}</li>
+        </ul>
+    </div>
+</div>
+{% endblock %}

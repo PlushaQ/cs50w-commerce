@@ -1,0 +1,14 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+    {% for item in watchlist %}
+    <ul>
+        <li>
+            <a href=" {% url 'auction' slug=item.auction.slug %}">{{ item }}</a>
+        </li>
+    </ul>
+    {% empty %}
+    <h3> You don't have any items in your watchlist.</h3>
+    {% endfor %}
+{% endblock %}

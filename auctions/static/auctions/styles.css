@@ -1,0 +1,62 @@
+body {
+    padding: 10px;
+}
+
+.listing-short {
+    height: 250px;
+}
+
+.listing-short .content {
+    height: 80%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 10px;
+    
+}
+
+.listing-short .content .description {
+    flex: 1;
+    margin-left: 10px;
+}
+
+.listing-short .content .auction-button {
+    margin-left: auto;
+    text-align: right;
+    align-self: bottom;
+}
+
+.listing-short .content .auction-image {
+    justify-self: center;
+    width: 200px; 
+    margin-right: 20px;
+}
+
+.content-footer {
+    height: 100%;
+}
+
+
+.creation-date {
+    font-size: 10px;
+    color: grey;
+    text-align: right;
+    align-self: bottom;
+}
+
+.listing-long {
+    display: flex;
+    flex-direction: row;
+}
+
+.form-group {
+    width: 100%;
+}
+
+.success {
+    color: green;
+}
+
+.error {
+    color: red;
+}
