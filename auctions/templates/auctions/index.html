@@ -4,7 +4,7 @@
 {% block body %}
     <h2>Active Listings</h2>
     
-    {% for auction in auctions %}
+    {% for auction in auctions reversed %}
     <hr>
     <div class="listing-short">
         <h3 style="margin-right: 20px;">{{ auction.title }}</h3>
@@ -22,7 +22,8 @@
                     </a>
                 </div>
                 <br>
-                <p class="creation-date">Created {{ auction.pretty_release_date }} by {{ auction.user }}</p>
+                <p class="info-footer">Created {{ auction.pretty_release_date }} by {{ auction.user }}</p>
+                {% if not auction.active %} <p class="info-footer" style="color:red;">Auction closed </p> {%endif%}
             </div>
             </div>
             
