@@ -47,7 +47,7 @@ class Auction(models.Model):
     def save(self, *args, **kwargs):
         self.release_date = datetime.datetime.now()
         self.slug = slugify(self.title + '-' + str(uuid.uuid4())[:8])
-        self.start_value = self.start_value * 100
+        self.start_value = self.start_value
         super(Auction, self).save(*args, **kwargs)
 
 class Bid(models.Model):
