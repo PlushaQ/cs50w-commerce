@@ -9,7 +9,7 @@ from django.contrib import messages
 
 from datetime import datetime
 
-from .models import User, Auction, Bid, Watchlist
+from .models import User, Auction, Bid, Watchlist, Category
 from .forms import AuctionForm, BidForm
 
 
@@ -151,3 +151,13 @@ def close_auction(request, auction_id):
             return redirect('auction', slug=auction.slug) 
     else:
         return redirect('login')
+    
+
+def category_list(request):
+    categories = Category.objects.all()
+    return render(request, 'auctions/categories.html', {'categories': categories})
+
+def auction_list_by_category(request, category_id):
+    category = Category.objects.get(pk=category_id)
+    auctions = Auction.objects.filter(category=category)
+    return render(request, 'auctions/auction_list_by_category.html', {'auctions': auctions})
