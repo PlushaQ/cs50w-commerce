@@ -12,6 +12,7 @@ class User(AbstractUser):
 class Category(models.Model):
     title = models.CharField(max_length=50)
     description = models.TextField(max_length=500)
+    image = models.ImageField()
     
     def __str__(self) -> str:
         return self.title
