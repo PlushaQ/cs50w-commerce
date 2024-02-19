@@ -1,0 +1,42 @@
+{% extends 'auctions/layout.html' %}
+{% load custom_filters %}
+{% block body %}
+
+<h1> {{ category }}</h1>
+<hr>
+
+{% for auction in auctions reversed %}
+    <div class="listing-short">
+        <h3 style="margin-right: 20px;">{{ auction.title }}</h3>
+        <div class="content">
+            <div class="auction-image">
+                <img src="{{ auction.image }}" alt="{{ auction.title }} image" width="200px" style="margin-right: 20px;">
+            </div>  
+            <div class="description">
+                <p>{{ auction.short_description }}</p>
+            <div class="content-footer">
+                <p class="price"> <strong>Price: </strong> $ {{ auction|get_biggest_bid }}</p> 
+                <div class="auction-button">
+                    <a href="{% url 'auction' auction.slug %}">
+                        <button>Go to auction</button>
+                    </a>
+                </div>
+                <br>
+                <p class="info-footer">Created {{ auction.pretty_release_date }} by {{ auction.user }}</p>
+                {% if not auction.active %} <p class="info-footer" style="color:red;">Auction closed </p> {%endif%}
+            </div>
+            </div>
+            
+        </div>
+    </div>
+    <hr>
+{% empty %}
+<div class="card text-center" style="width: 18rem;">
+    <div class="card-body">
+        <h5 class="card-title">No auctions available</h5>
+        <p class="card-text">There are currently no auctions available.</p>
+    </div>
+</div>
+{% endfor %}
+
+{% endblock %}

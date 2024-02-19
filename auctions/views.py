@@ -160,4 +160,4 @@ def category_list(request):
 def auction_list_by_category(request, category_id):
     category = Category.objects.get(pk=category_id)
     auctions = Auction.objects.filter(category=category)
-    return render(request, 'auctions/auction_list_by_category.html', {'auctions': auctions})
+    return render(request, 'auctions/auction_list_by_category.html', {'category': category, 'auctions': auctions})
