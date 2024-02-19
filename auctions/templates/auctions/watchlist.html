@@ -1,14 +1,28 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-
+<div class="watchlist-container">
+    <h1>This is your watchlist</h1>
+    <hr>
     {% for item in watchlist %}
-    <ul>
-        <li>
-            <a href=" {% url 'auction' slug=item.auction.slug %}">{{ item }}</a>
-        </li>
-    </ul>
+    {% if forloop.counter0|divisibleby:3 %}
+    <div class="row">
+    {% endif %}
+        <div class="col-md-4"> 
+            <div class="card mb-4" style="width: 30rem;">
+                <img class="card-img-top" src="{{ item.auction.image }}" alt="{{ item.auction.title }} image">
+                <div class="card-body">
+                    <h5 class="card-title">{{ item.auction.title }}</h5>
+                    <p class="card-text">{{ item.auction.short_description }}</p>
+                    <a href="{% url 'auction' slug=item.auction.slug %}" class="btn btn-primary">Go to auction</a>
+                </div>
+            </div>
+        </div>
+    {% if forloop.counter|divisibleby:3 or forloop.last %}
+    </div>
+    {% endif %}
     {% empty %}
-    <h3> You don't have any items in your watchlist.</h3>
+    <h3>You don't have any items in your watchlist.</h3>
     {% endfor %}
+</div>
 {% endblock %}
