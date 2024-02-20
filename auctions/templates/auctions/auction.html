@@ -77,15 +77,35 @@
         </ul>
     </div>
 </div>
-
-<div class="comments-form-container">
-    <form method="POST">
-        {% csrf_token %}
-        <div class="form-group">
-            {{ comment_form.content }}
+    <hr>
+    <div class="comments-section-container">
+        <h3>Comments section</h3>
+        <hr>
+        <div class="comments-list">
+            {% for comment in comments %}
+            <div class="comment-card">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title"><strong>{{ comment.user.username }}</strong> said:</h5>
+                        <p class="card-text">{{ comment.content }}</p>
+                        <p class="card-text"><small class="text-muted">Posted on: {{ comment.creation_time }}</small></p>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p>No comments yet.</p>
+            {% endfor %}
         </div>
-        <button type="submit" class="btn btn-primary">Comment</button>
-    </form>
-
-</div>
+    </div>
+    
+    {% if user.is_authenticated %}
+    <div class="comment-form-container">
+        <h4>Add your comment</h4>
+        <form method="POST">
+            {% csrf_token %}
+            {{ comment_form.content }}
+            <button type="submit" class="btn btn-primary">Comment</button>
+        </form>
+    </div>
+    {% endif %}
 {% endblock %}

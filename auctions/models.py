@@ -22,7 +22,7 @@ class Auction(models.Model):
     description = models.TextField(max_length=5000)
     slug = models.SlugField(max_length=255, blank=True)
     image = models.URLField()
-    release_date = models.DateTimeField(blank=True)
+    release_date = models.DateTimeField(auto_now_add=True)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
     start_value = models.DecimalField(max_digits=8, decimal_places=2)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='auctions_created')
@@ -89,9 +89,12 @@ class Bid(models.Model):
 
 class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    content = models.TextField(max_length=500)
+    content = models.TextField(max_length=255)
     auction = models.ForeignKey(Auction, on_delete=models.CASCADE)
-    creation_time = models.DateTimeField()
+    creation_time = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self) -> str:
+        return f'Comment by {self.user} in {self.auction} at {self.creation_time}'
 
 class Watchlist(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='watchlist')

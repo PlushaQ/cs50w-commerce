@@ -9,7 +9,7 @@ from django.contrib import messages
 
 from datetime import datetime
 
-from .models import User, Auction, Bid, Watchlist, Category
+from .models import Comment, User, Auction, Bid, Watchlist, Category
 from .forms import AuctionForm, BidForm, CommentForm
 
 
@@ -115,11 +115,13 @@ def process_comment_form(request, auction):
 
 def auction_page(request, slug):
     auction = get_object_or_404(Auction, slug=slug)
+    comments = Comment.objects.filter(auction=auction)
     bid_form = process_bid_form(request, auction)
     comment_form = process_comment_form(request, auction)
     watchlist = request.user.watchlist.filter(auction=auction) if request.user.is_authenticated else None
     context = {
         'auction': auction,
+        'comments': comments,
         'watchlist': watchlist,
         'bid_form': bid_form,
         'comment_form': comment_form,
