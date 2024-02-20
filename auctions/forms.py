@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Auction, Category, Bid
+from .models import Auction, Category, Bid, Comment
 
 class AuctionForm(forms.ModelForm):
     class Meta:
@@ -39,4 +39,26 @@ class BidForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         if user:
             self.instance.user_id = user.id
+        self.instance.auction = auction
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['content']
+        widgets = {
+            'content': forms.Textarea(attrs={
+                'rows': '5',
+                'cols': '90',
+                'maxlength': '200',
+                })
+        }
+    
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        time = kwargs.pop('time', None)
+        auction = kwargs.pop('auction', None)
+        super().__init__(*args, **kwargs)
+        if user:
+            self.instance.user_id = user.id
+        self.instance.time = time
         self.instance.auction = auction

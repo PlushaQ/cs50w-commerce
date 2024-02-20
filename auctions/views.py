@@ -10,7 +10,7 @@ from django.contrib import messages
 from datetime import datetime
 
 from .models import User, Auction, Bid, Watchlist, Category
-from .forms import AuctionForm, BidForm
+from .forms import AuctionForm, BidForm, CommentForm
 
 
 def index(request):
@@ -102,14 +102,27 @@ def process_bid_form(request, auction):
 
     return form
 
+@login_required
+def process_comment_form(request, auction):
+    if request.method == 'POST':
+        form = CommentForm(request.POST, user=request.user, auction=auction)
+        if form.is_valid():
+            form.save()
+    else:
+        form = CommentForm(user=request.user, auction=auction)
+    return form
+
+
 def auction_page(request, slug):
     auction = get_object_or_404(Auction, slug=slug)
-    form = process_bid_form(request, auction)
+    bid_form = process_bid_form(request, auction)
+    comment_form = process_comment_form(request, auction)
     watchlist = request.user.watchlist.filter(auction=auction) if request.user.is_authenticated else None
     context = {
         'auction': auction,
         'watchlist': watchlist,
-        'form': form,
+        'bid_form': bid_form,
+        'comment_form': comment_form,
         }
     return render(request, 'auctions/auction.html', context)
 

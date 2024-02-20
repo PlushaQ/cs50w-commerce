@@ -45,8 +45,8 @@
         <form method="POST">
             {% csrf_token %}
             <div class="form-group">
-                {{ form.value.label_tag }}
-                {{ form.value }}
+                {{ bid_form.value.label_tag }}
+                {{ bid_form.value }}
             </div>
             <button type="submit" class="btn btn-primary">Place bid</button>
         </form>
@@ -73,8 +73,19 @@
         <ul>
             <li> Category: {{ auction.category }}</li>
             <li> Listed by: {{ auction.user }} </li>
-            <li> Realese date: {{auction.pretty_release_date }}</li>
+            <li> Realese date: {{ auction.pretty_release_date }}</li>
         </ul>
     </div>
+</div>
+
+<div class="comments-form-container">
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            {{ comment_form.content }}
+        </div>
+        <button type="submit" class="btn btn-primary">Comment</button>
+    </form>
+
 </div>
 {% endblock %}
