@@ -57,8 +57,10 @@
             {% endfor %}
         </ul>
         {% else %}
-        <div class="winner"> 
-        {% if auction.winner == user %}
+        <div class="winner">
+        {% if not auction.winner and not auction.active %}
+            <h3 style="color: red;"> Auction closed without winner</h3>
+        {% elif auction.winner == user %}
             <h3>You win this auction!</h3>
         {% elif auction.user == user %}
             <h3> User {{ user.username }} won this auction with  ${{ auction|get_biggest_bid }} bid.</h3>

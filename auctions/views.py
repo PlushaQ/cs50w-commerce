@@ -161,9 +161,16 @@ def close_auction(request, auction_id):
     if request.user.is_authenticated:
         auction = get_object_or_404(Auction, pk=auction_id)
         if auction.user == request.user:
-            auction.close_auction(Bid.winner_bid(auction).user)
+            if Bid.objects.filter(auction=auction).exists():
+                winner = Bid.winner_bid(auction).user
+            else:
+                winner = None
+            auction.close_auction(winner)
             auction.save()
-            return redirect('auction', slug=auction.slug) 
+            return redirect('auction', slug=auction.slug)
+            
+
+
     else:
         return redirect('login')
     
