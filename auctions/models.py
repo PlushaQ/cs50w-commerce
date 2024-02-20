@@ -21,7 +21,7 @@ class Auction(models.Model):
     title = models.CharField(max_length=75)
     description = models.TextField(max_length=5000)
     slug = models.SlugField(max_length=255, blank=True)
-    image = models.URLField()
+    image = models.URLField(blank=True)
     release_date = models.DateTimeField(auto_now_add=True)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
     start_value = models.DecimalField(max_digits=8, decimal_places=2)
@@ -45,9 +45,9 @@ class Auction(models.Model):
 
 
     def save(self, *args, **kwargs):
-        self.release_date = datetime.datetime.now()
+        if not self.image:  
+            self.image = 'https://i.imgur.com/We5zz56.jpeg' 
         self.slug = slugify(self.title + '-' + str(uuid.uuid4())[:8])
-        self.start_value = self.start_value
         super(Auction, self).save(*args, **kwargs)
 
 class Bid(models.Model):

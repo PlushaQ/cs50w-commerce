@@ -20,6 +20,7 @@ class AuctionForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['category'].queryset = Category.objects.all()
         self.fields['category'].required = False
+        self.fields['image'].required = False
         if user:
             self.instance.user_id = user.id
         self.instance.time = time
