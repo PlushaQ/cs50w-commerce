@@ -18,7 +18,7 @@
                 <p class="price"> <strong>Price: </strong> $ {{ auction|get_biggest_bid }}</p> 
                 <div class="auction-button">
                     <a href="{% url 'auction' auction.slug %}">
-                        <button>Go to auction</button>
+                        <button class="btn btn-primary">Go to auction</button>
                     </a>
                 </div>
                 <br>

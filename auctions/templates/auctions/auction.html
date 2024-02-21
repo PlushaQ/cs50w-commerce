@@ -63,7 +63,7 @@
         {% elif auction.winner == user %}
             <h3>You win this auction!</h3>
         {% elif auction.user == user %}
-            <h3> User {{ user.username }} won this auction with  ${{ auction|get_biggest_bid }} bid.</h3>
+            <h3> User {{ auction.winner.username }} won this auction with  ${{ auction|get_biggest_bid }} bid.</h3>
         {% else %}
             <h3> Sold for ${{ auction|get_biggest_bid }}</h3>
         {% endif %}

@@ -28,7 +28,7 @@ class Auction(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='auctions_created')
 
     active = models.BooleanField(default=True)
-    winner = models.ForeignKey(User, on_delete=models.CASCADE, null=True, default=None, related_name='auctions_winner')
+    winner = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, default=None, related_name='auctions_winner')
 
     def __str__(self):
         return self.title
